@@ -2,6 +2,8 @@
 
 מעקב אישי אחרי נושאים בחדשות בעברית, עם תקציר יומי של Claude. גרסה משודרגת של פרויקט Lovable "RADAR AKTUALYA Connect".
 
+כתובת: https://radar-aktualya.vercel.app (פרויקט Vercel radar-aktualya. מיזוג ל-main מעדכן אותה).
+
 ## החלטות קבועות של ענת
 - בלי התחברות, בלי הרשאות משתמש ובלי אישורים. כל מי שפותח את האפליקציה יכול לערוך.
 - הנתונים בפרויקט Supabase בשם cultura-GH (ktqmwpbzcnzkhjskqisy). הפרויקט משותף, ולכן כל טבלה מתחילה ב-radar_. אין תלות בפרויקט RADAR-AKTUALYA הישן או ב-Lovable Cloud.
