@@ -92,9 +92,17 @@ try {
   await page.locator(".radar-pick button", { hasText: "סגירה" }).click();
 
   // Copy link
-  await page.getByRole("button", { name: "העתקת קישור" }).click();
+  await page.locator(".signature-btn").click();
+  check(await page.locator(".signature-menu").isVisible(), "signature logo opens the system menu");
+  check((await page.locator(".signature-btn").textContent()).includes("ענת שטיבלמן"), "signature shows Anat's name");
+  await page.getByRole("menuitem", { name: "העתקת קישור" }).click();
   check((await page.evaluate(() => navigator.clipboard.readText())) === BASE + "/", "copy link copies the current URL");
-  check(await page.getByRole("link", { name: "שיחת הפיתוח" }).getAttribute("href") === "https://claude.ai/code/session_014ys6u71HTGPETaN4nECMPc", "dev chat link");
+  await page.locator(".signature-btn").click();
+  check(await page.getByRole("menuitem", { name: "שיחת הפיתוח" }).getAttribute("href") === "https://claude.ai/code/session_014ys6u71HTGPETaN4nECMPc", "dev chat link");
+
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(400);
+  check(await page.locator(".signature-menu").count() === 0, "Escape closes the menu");
 
   // Scan all
   clearReq();

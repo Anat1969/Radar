@@ -52,7 +52,22 @@ button { font: inherit; color: inherit; }
 .nav-link { flex: 0 0 auto; text-decoration: none; padding: 7px 13px; border-radius: 999px; color: var(--muted); font-size: .93rem; transition: color .2s, background .2s; }
 .nav-link:hover { color: var(--text); background: rgba(255,255,255,.05); }
 .nav-link.is-active { color: var(--text); background: rgba(245,166,35,.12); box-shadow: inset 0 0 0 1px rgba(245,166,35,.3); }
-.bar-actions { display: flex; gap: 6px; flex: 0 0 auto; }
+.signature { position: relative; flex: 0 0 auto; }
+.signature-btn { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 4px 4px 4px 2px; cursor: pointer; border-radius: 999px; transition: background .2s; }
+.signature-btn:hover, .signature-btn.is-open { background: rgba(255,255,255,.05); }
+.signature-text { display: grid; line-height: 1.15; text-align: start; }
+.signature-title { color: var(--amber); font-size: .68rem; }
+.signature-name { font-weight: 300; font-size: .98rem; letter-spacing: .02em; }
+.signature-mark { position: relative; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; font-weight: 300; font-size: .95rem; letter-spacing: .04em; color: #1A1204;
+  background: radial-gradient(circle at 35% 30%, #FFD27A, #E8920F 70%); box-shadow: 0 0 0 1px rgba(255,210,122,.5), 0 6px 18px -6px rgba(245,166,35,.7), inset 0 1px 0 rgba(255,255,255,.5); }
+.signature-mark-lg { width: 46px; height: 46px; font-size: 1.15rem; }
+.signature-dot { position: absolute; top: 4px; inset-inline-end: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+.signature-menu { position: absolute; top: calc(100% + 10px); inset-inline-end: 0; z-index: 60; width: 260px; padding: 10px; display: grid; gap: 4px; transform-origin: top left; background: linear-gradient(180deg, rgba(30,35,49,.98), rgba(18,21,30,.98)); }
+.signature-menu-head { display: flex; align-items: center; gap: 12px; padding: 8px 8px 12px; border-bottom: 1px solid var(--line); margin-bottom: 4px; }
+.signature-menu-name { font-size: 1.02rem; }
+.menu-item { display: block; width: 100%; text-align: start; padding: 10px 12px; border-radius: 10px; border: 0; background: none; color: var(--text); text-decoration: none; font-size: .95rem; cursor: pointer; transition: background .15s; }
+.menu-item:hover, .menu-item:focus-visible { background: rgba(245,166,35,.1); }
+.menu-item-accent { color: var(--amber2); }
 
 .chip { display: inline-flex; align-items: center; text-decoration: none; border: 1px solid var(--line2); background: rgba(255,255,255,.03); padding: 5px 12px; border-radius: 999px; font-size: .82rem; cursor: pointer; color: var(--text); transition: border-color .2s, background .2s, transform .15s; white-space: nowrap; }
 .chip:hover { border-color: rgba(245,166,35,.5); background: rgba(245,166,35,.06); }
@@ -315,7 +330,8 @@ input:focus, select:focus { outline: none; border-color: rgba(245,166,35,.6); bo
 @media (max-width: 720px) {
   .topbar-inner { flex-wrap: wrap; padding: 8px 16px; gap: 8px 12px; }
   .brand-tag { display: none; }
-  .bar-actions { margin-inline-start: auto; }
+  .signature { margin-inline-start: auto; }
+  .signature-text { display: none; }
   .nav { order: 3; flex-basis: 100%; }
   .main { padding: 18px 16px 70px; }
   .topic-hero { padding: 20px; }
