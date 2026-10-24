@@ -9,7 +9,7 @@
 - הנתונים בפרויקט Supabase בשם cultura-GH (ktqmwpbzcnzkhjskqisy). הפרויקט משותף, ולכן כל טבלה מתחילה ב-radar_. אין תלות בפרויקט RADAR-AKTUALYA הישן או ב-Lovable Cloud.
 - מיזוג ל-main אחרי בדיקה ירוקה, בלי לשאול. ענת אישרה מיזוג קבוע.
 - עברית ו-RTL, בלי אייקונים. סרגל עליון קבוע בכל הדפים, ושם האפליקציה מקשר לדף הבית.
-- כפתורי המערכת ("העתקת קישור", "שיחת הפיתוח", "התקנת האפליקציה") מרוכזים בתפריט שנפתח מהלוגו האישי "אד׳ ענת שטיבלמן" בקצה הסרגל: חותם עגול עם "עש". נקודה ירוקה על החותם מסמנת שאפשר להתקין.
+- כפתורי המערכת ("העתקת קישור", "שיחת הפיתוח", "התקנת האפליקציה") מרוכזים בכפתור הלוגו A&I "אד׳ ענת שטיבלמן" בקצה הסרגל (`<ai-menu>`).
 
 ## מבנה
 - `src/`: Vite, React ו-framer-motion. הדפים הם רדאר (/), נושא (/topic/:id?tab=), תדריך (/briefing?i=), ארכיון (/archive?topic=&date=), שמורות ונושאים והגדרות.
@@ -23,3 +23,6 @@
 ## מלכודות
 - Google News מחזיר הרבה כתבות לא קשורות (מילים מתפריטים ומתגיות באתר). לכן Claude מסמן `relevant` והממשק מסנן `relevant === false`.
 - בכלי ה-SQL של ה-MCP, פקודות UPDATE ו-DELETE נתקעות עד שענת מאשרת. שינויי נתונים עוברים דרך פונקציית ה-Edge או דרך הממשק.
+
+## A&I logo button
+The top bar holds only the app name (links home), content navigation, and ONE logo button "אד' ענת שטיבלמן A&I" (`<ai-menu>` from https://appofapp-gh.vercel.app/ai-menu.js). Every editing and development action (העתקת קישור, שיחת הפיתוח, פרויקט המחקר, התקנת האפליקציה, edit mode, add, delete) lives only inside it, never as loose buttons. Standard: https://github.com/Anat1969/AppOfApp-GH/blob/main/docs/ai-menu-standard.md
