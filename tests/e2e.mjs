@@ -5,7 +5,8 @@ import { chromium } from "playwright";
 import { spawn } from "node:child_process";
 import { mkdirSync } from "node:fs";
 
-const BASE = "http://localhost:4173";
+const PORT = process.env.PORT || "4173";
+const BASE = `http://localhost:${PORT}`;
 const SHOTS = "tests/shots";
 mkdirSync(SHOTS, { recursive: true });
 
@@ -39,6 +40,8 @@ const requests = [];
 const errors = [];
 
 async function mock(page) {
+  // AI_MENU_JS: a local copy of the shared A&I menu, for runs where appofapp-gh.vercel.app is unreachable.
+  if (process.env.AI_MENU_JS) await page.route("https://appofapp-gh.vercel.app/ai-menu.js", (r) => r.fulfill({ path: process.env.AI_MENU_JS, contentType: "application/javascript" }));
   await page.route(/fonts\.(googleapis|gstatic)\.com/, (r) => r.fulfill({ status: 200, body: "", contentType: "text/css" }));
   await page.route(/supabase\.co\/functions\/v1\/radar-scan/, async (r) => {
     requests.push({ method: "POST", path: "radar-scan", body: r.request().postData() });
@@ -62,7 +65,7 @@ async function mock(page) {
   });
 }
 
-const server = spawn("npx", ["vite", "preview", "--port", "4173", "--strictPort"], { stdio: "ignore" });
+const server = spawn("npx", ["vite", "preview", "--port", PORT, "--strictPort"], { stdio: "ignore" });
 await new Promise((r) => setTimeout(r, 2500));
 
 const browser = await chromium.launch({ executablePath: process.env.PW_CHROME || "/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell" });
@@ -92,17 +95,20 @@ try {
   await page.locator(".radar-pick button", { hasText: "סגירה" }).click();
 
   // Copy link
-  await page.locator(".signature-btn").click();
-  check(await page.locator(".signature-menu").isVisible(), "signature logo opens the system menu");
-  check((await page.locator(".signature-btn").textContent()).includes("ענת שטיבלמן"), "signature shows Anat's name");
+  check(await page.locator("header ai-menu .logo").isVisible(), "A&I logo button in the top bar");
+  check(!(await page.locator("header >> text=העתקת קישור").first().isVisible().catch(() => false)), "no loose development buttons in the bar");
+  await page.locator("ai-menu .logo").click();
+  check(await page.locator("ai-menu .panel").isVisible(), "A&I logo opens the system menu");
+  check((await page.locator("ai-menu .name").textContent()).includes("ענת שטיבלמן"), "logo shows Anat's name");
   await page.getByRole("menuitem", { name: "העתקת קישור" }).click();
   check((await page.evaluate(() => navigator.clipboard.readText())) === BASE + "/", "copy link copies the current URL");
-  await page.locator(".signature-btn").click();
+  await page.locator("ai-menu .panel").waitFor({ state: "hidden" });
+  await page.locator("ai-menu .logo").click();
   check(await page.getByRole("menuitem", { name: "שיחת הפיתוח" }).getAttribute("href") === "https://claude.ai/code/session_014ys6u71HTGPETaN4nECMPc", "dev chat link");
 
   await page.keyboard.press("Escape");
   await page.waitForTimeout(400);
-  check(await page.locator(".signature-menu").count() === 0, "Escape closes the menu");
+  check(!(await page.locator("ai-menu .panel").isVisible()), "Escape closes the menu");
 
   // Scan all
   clearReq();
